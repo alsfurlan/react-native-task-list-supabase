@@ -1,11 +1,14 @@
 import { View, TextInput, Button, StyleSheet } from "react-native";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { TaskContext } from "../contexts/TaskContext";
 
-const TaskInput = ({ onAddTask }) => {
+const TaskInput = () => {
+  const taskContext = useContext(TaskContext);
+
   const [task, setTask] = useState("");
 
   const onAddHandler = () => {
-    onAddTask(task);
+    taskContext.addTask(task);
     setTask("");
   };
 
