@@ -1,15 +1,49 @@
-import { useContext } from "react";
-import { View, ScrollView, StyleSheet } from "react-native";
+import axios from "axios";
+import { useContext, useEffect } from "react";
+import { View, ScrollView, StyleSheet, Alert } from "react-native";
 import { TaskContext } from "../contexts/TaskContext";
+import { findAllTasks, updateTask } from "../services/TaskApi";
 
 import TaskItem from "./TaskItem";
 
 const TaskList = () => {
   const taskContext = useContext(TaskContext);
 
-  const onFinishHandler = (task) => {
+  useEffect(() => {
+    // findAllTasks()
+    //   .then((response) => {
+    //     taskContext.setTasks(response.data);
+    //   })
+    //   .catch(() => {});
+
+    const findAll = async () => {
+      try {
+        const response = await findAllTasks();
+        taskContext.setTasks(response.data);
+      } catch (e) {
+        Alert.alert("Erro", "Erro ao carregar lista de tarefas");
+      }
+    };
+    findAll();
+  }, []);
+
+  const onFinishHandler = async (task) => {
     task.done = !task.done;
-    taskContext.updateTask(task);
+
+    // updateTask(task)
+    //   .then(() => {
+    //     taskContext.updateTask(task);
+    //   })
+    //   .catch(() => {
+    //     Alert.alert("Erro", "Erro ao alterar status da tarefa");
+    //   });
+
+    try {
+      await updateTask(task);
+      taskContext.updateTask(task);
+    } catch (e) {
+      Alert.alert("Erro", "Erro ao alterar status da tarefa");
+    }
   };
 
   return (

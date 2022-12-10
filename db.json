@@ -1,0 +1,24 @@
+{
+  "tasks": [
+    {
+      "description": "Fazer os exercícios",
+      "done": false,
+      "id": 1
+    },
+    {
+      "description": "Fazer caminhada",
+      "done": false,
+      "id": 2
+    },
+    {
+      "description": "Fazer almoço",
+      "done": false,
+      "id": 3
+    },
+    {
+      "description": "Jogar futebol",
+      "done": false,
+      "id": 4
+    }
+  ]
+}

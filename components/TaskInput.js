@@ -1,15 +1,27 @@
 import { View, TextInput, Button, StyleSheet } from "react-native";
 import { useContext, useState } from "react";
 import { TaskContext } from "../contexts/TaskContext";
+import { addNewTask } from "../services/TaskApi";
 
 const TaskInput = () => {
   const taskContext = useContext(TaskContext);
 
-  const [task, setTask] = useState("");
+  const [description, setDescription] = useState("");
 
-  const onAddHandler = () => {
-    taskContext.addTask(task);
-    setTask("");
+  const onAddHandler = async () => {
+    const newTask = {
+      description: description,
+      done: false,
+    };
+    try {
+      // const response = await addNewTask(newTask);
+      // const newTaskCreated = response.data;
+      const { data: newTaskCreated } = await addNewTask(newTask);
+      taskContext.addTask(newTaskCreated);
+      setDescription("");
+    } catch (e) {
+      Alert.alert("Erro", "Erro ao salvar nova tarefa");
+    }
   };
 
   return (
@@ -17,8 +29,8 @@ const TaskInput = () => {
       <TextInput
         style={styles.taskTextInput}
         placeholder="Digite sua tarefa aqui"
-        value={task}
-        onChangeText={(text) => setTask(text)}
+        value={description}
+        onChangeText={(text) => setDescription(text)}
       />
       <Button title="Adicionar" onPress={onAddHandler} />
     </View>

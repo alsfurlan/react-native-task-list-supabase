@@ -4,6 +4,7 @@ export const TaskContext = createContext({
   taskList: [],
   addTask: (task) => {},
   updateTask: (task) => {},
+  setTasks: (tasks) => {},
 });
 
 export const TaskContextProvider = ({ children }) => {
@@ -11,15 +12,8 @@ export const TaskContextProvider = ({ children }) => {
 
   console.log(taskList);
 
-  const addTask = (description) => {
-    setTaskList((currentTaskList) => [
-      ...currentTaskList,
-      {
-        id: Date.now(),
-        description,
-        done: false,
-      },
-    ]);
+  const addTask = (task) => {
+    setTaskList((currentTaskList) => [...currentTaskList, task]);
   };
 
   const updateTask = (task) => {
@@ -30,8 +24,10 @@ export const TaskContextProvider = ({ children }) => {
     });
   };
 
+  const setTasks = (tasks) => setTaskList(tasks);
+
   return (
-    <TaskContext.Provider value={{ taskList, addTask, updateTask }}>
+    <TaskContext.Provider value={{ taskList, addTask, updateTask, setTasks }}>
       {children}
     </TaskContext.Provider>
   );
