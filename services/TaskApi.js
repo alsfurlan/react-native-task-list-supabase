@@ -1,15 +1,13 @@
-import axios from "axios";
-
-const apiUrl = "http://10.0.2.2:3000/tasks";
+import supabase from "../config/SupabaseClient";
 
 export const findAllTasks = async () => {
-  return await axios.get(apiUrl);
+  return await supabase.from("tasks").select("*");
 };
 
 export const addNewTask = async (task) => {
-  return await axios.post(apiUrl, task);
+  return await supabase.from("tasks").insert([task]).select();
 };
 
 export const updateTask = async (task) => {
-  return await axios.put(`${apiUrl}/${task.id}`, task);
+  return await supabase.from("tasks").update(task).eq("id", task.id).select();
 };

@@ -1,4 +1,4 @@
-import { View, TextInput, Button, StyleSheet } from "react-native";
+import { View, TextInput, Button, StyleSheet, Alert } from "react-native";
 import { useContext, useState } from "react";
 import { TaskContext } from "../contexts/TaskContext";
 import { addNewTask } from "../services/TaskApi";
@@ -16,7 +16,8 @@ const TaskInput = () => {
     try {
       // const response = await addNewTask(newTask);
       // const newTaskCreated = response.data;
-      const { data: newTaskCreated } = await addNewTask(newTask);
+      const { data } = await addNewTask(newTask);
+      const [newTaskCreated] = data;
       taskContext.addTask(newTaskCreated);
       setDescription("");
     } catch (e) {
